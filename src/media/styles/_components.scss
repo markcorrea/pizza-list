@@ -5,6 +5,14 @@
   text-transform: capitalize;
 }
 
+.card-pizza-price {
+  font-weight: 400;
+  color: #444;
+  font-size: 11px;
+  float: right;
+  margin-top: 6px;
+}
+
 .card-username {
     font-weight: 700;
     color: #444;
@@ -33,6 +41,16 @@
   }
 }
 
+.size-total-value {
+  padding: 5px 15px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #444444;
+  span {
+    float: right;
+  }
+}
+
 .card-info {
     font-weight: 400;
     color: #444444;
@@ -42,6 +60,8 @@
 
 .topping-price {
   float: right;
+  margin-top: 1px;
+  font-size: 11px;
 }
 
 .card-notes {
@@ -73,7 +93,8 @@
 
 .option-list {
   list-style-type: none;
-  padding: 10px 0;
+  padding: 10px 0 0;
+  margin-bottom: 0;
   li {
     padding: 3px 15px;
   }

@@ -8,6 +8,7 @@ export class PizzaBoard extends React.Component {
 
   componentDidMount() {
     this.setState({ data: this.props.data, cart: [] })
+    console.log(this.props.data)
   }
 
   consoleState = () => {
@@ -48,19 +49,26 @@ export class PizzaBoard extends React.Component {
     return counter
   }
 
+  sumSizePrice = (toppings, basePrice) => {
+    let sum = basePrice
+    toppings.map(item => {
+      if (item.checked) sum+= item.topping.price
+    })
+    return parseFloat(sum.toFixed(2))
+  }
+
   renderBoard() {
     const { pizzaSizes } = this.state.data
     return (
       <div>
         <div className='post-container'>
           <div className='row'>
-            {pizzaSizes.map(({ name, toppings, maxToppings }, sizeIndex) => (
+            {pizzaSizes.map(({ name, basePrice, toppings, maxToppings }, sizeIndex) => (
               <div key={'size_board_' + sizeIndex} className='col-md-4'>
                 <div className='post-card'>
                   <div className='post-header'>
                     <span className='card-pizza-size'>{name}</span>
-                    <br />
-                    <button onClick={this.consoleState}>console state</button>
+                    <div className='card-pizza-price'>${basePrice}</div>
                   </div>
                   <span className='card-username'>Toppings:</span>
                   <ul className='option-list'>
@@ -87,6 +95,11 @@ export class PizzaBoard extends React.Component {
                       )
                     )}
                   </ul>
+
+                  <div className='size-total-value'>
+                      Total: 
+                      <span>${this.sumSizePrice(toppings, basePrice)}</span>
+                  </div>
 
                   <div className='topping-select-counter'>
                     You can select:{' '}
