@@ -1,15 +1,8 @@
 import React from 'react'
-import { observer } from 'mobx-react'
 
-@observer
 export class Boards extends React.Component {
   constructor(props) {
     super(props)
-  }
-
-  /* Check whether the incoming media is a youtube video or spotify item, and renders it accordingly. */
-  renderMedia = url => {
-    return <div className='post-media'>content</div>
   }
 
   render() {

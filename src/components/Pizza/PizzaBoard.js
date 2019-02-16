@@ -1,77 +1,115 @@
 import React from 'react'
-import { observable } from 'mobx'
-import { inject, observer } from 'mobx-react'
-import gql from 'graphql-tag'
-import { Query } from 'react-apollo'
-import { Boards } from '../ui/Boards'
 
-const PIZZA_QUERY = gql`
-  query PizzaSizeQuery {
-    pizzaSizes {
-      name
-      basePrice
-      maxToppings
-      toppings {
-        topping {
-          name
-        }
-        defaultSelected
-      }
-    }
-  }
-`
-
-@inject('PizzaController')
-@observer
 export class PizzaBoard extends React.Component {
-  @observable posts = []
-
   constructor(props) {
     super(props)
-    this.PizzaController = props.PizzaController
-    this.posts = this.PizzaController.posts
+    this.state = {}
   }
 
-  async componentDidMount() {
-    console.log('mounted')
-    console.log(this.posts)
+  componentDidMount() {
+    this.setState({ data: this.props.data, cart: [] })
   }
 
-  renderContainer({ name, basePrice, maxToppings, toppings, }) {
+  consoleState = () => {
+    console.log('CURRENT PROPS', this.state.data)
+  }
+
+  render() {
+    return <div>{this.state.data ? this.renderContainer() : ''}</div>
+  }
+
+  renderContainer() {
     return (
       <div className='container mt-20'>
         <div className='row'>
-          <div className='col-md-8'>
-            pagina aqui
-            <br />
-            <Boards />
-          </div>
-          <div className='col-md-4'>
-            {this.renderSizes()}
+          <div className='col-md-8'>{this.renderBoard()}</div>
+          <div className='col-md-4'>{this.renderCart()}</div>
+        </div>
+      </div>
+    )
+  }
 
+  handleCheckboxChange = () => {
+    let key = event.target.name
+    let value = event.target.value === 'true'
+    let keySplit = key.split('.')
+
+    this.state.data.pizzaSizes[keySplit[0]].toppings[
+      keySplit[1]
+    ].checked = !value
+    this.setState({ data: this.state.data })
+  }
+
+  countToppings = toppings => {
+    let counter = 0
+    toppings.map(topping => {
+      if (topping.checked) counter++
+    })
+    return counter
+  }
+
+  renderBoard() {
+    const { pizzaSizes } = this.state.data
+    return (
+      <div>
+        <div className='post-container'>
+          <div className='row'>
+            {pizzaSizes.map(({ name, toppings, maxToppings }, sizeIndex) => (
+              <div key={'size_board_' + sizeIndex} className='col-md-4'>
+                <div className='post-card'>
+                  <div className='post-header'>
+                    <span className='card-pizza-size'>{name}</span>
+                    <br />
+                    <button onClick={this.consoleState}>console state</button>
+                  </div>
+                  <span className='card-username'>Toppings:</span>
+                  <ul className='option-list'>
+                    {toppings.map(
+                      (
+                        { topping: { name: toppingName, price }, checked },
+                        toppingIndex
+                      ) => (
+                        <li
+                          key={'topping_' + sizeIndex + toppingIndex}
+                          className='card-info'
+                        >
+                          <input
+                            type='checkbox'
+                            name={`${sizeIndex}.${toppingIndex}.checked`}
+                            onChange={() => this.handleCheckboxChange(checked)}
+                            value={checked}
+                            checked={checked}
+                            disabled={checked === false && maxToppings !== null && this.countToppings(toppings) >= maxToppings}
+                          />{' '}
+                          {toppingName}
+                          <span className='topping-price'>{price}</span>
+                        </li>
+                      )
+                    )}
+                  </ul>
+
+                  <div className='topping-select-counter'>
+                    You can select:{' '}
+                    <span>
+                      {this.countToppings(toppings)}/{maxToppings || '-'}
+                    </span>
+                  </div>
+
+                  <div className='post-footer mt-10'>
+                    <button className='btn-add-to-cart'>Add to cart</button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
     )
   }
 
-  render() {
+  renderCart = () => {
     return (
-      <div>
-        <Query query={PIZZA_QUERY}>
-          {({ loading, error, data }) => {
-            if (loading) return <h4>Loading...</h4>
-            if (error) console.log(error)
-            return this.renderContainer(data)
-          }}
-        </Query>
-      </div>
-    )
-  }
-
-  renderSizes = () => {
-    return (
-      <div className='form-container mt-20'>
+      <div className='form-container'>
         <div className='pizza-cart-title'>Pizza Cart</div>
         <ul className='cart-list'>
           <li>
