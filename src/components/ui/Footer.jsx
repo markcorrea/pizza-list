@@ -5,8 +5,8 @@ export default class Footer extends React.Component {
     return (
       <div className='container mt-20'>
         <div className='t-footer'>
-          <strong>#Trending music on Twitter</strong> - Here you can follow the best
-          of trending music, anytime.
+          <strong>#Luigi's Pizza is on Twitter!</strong> - Follow us to know
+          about our delicious toppings!
         </div>
       </div>
     )

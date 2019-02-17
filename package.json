@@ -1,29 +1,12 @@
 {
-  "name": "mrctrending",
+  "name": "pizza-list",
   "resolutions": {
     "babel-core": "7.0.0-bridge.0"
   },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "jsx",
-      "ts",
-      "tsx",
-      "node"
-    ],
-    "roots": [
-      "src/"
-    ],
-    "transform": {
-      "\\.js?$": "babel-jest"
-    }
-  },
   "version": "1.0.0",
-  "description": "#MrcTrending app which allows to see the media being shared as well as publish.",
+  "description": "Pizza list app which allows us to order pizzas on Luigi's Pizza.",
   "scripts": {
     "start": "npm run build",
-    "test": "jest --watchAll",
     "build": "webpack -d && cp ./index.html dist/index.html && webpack-dev-server --hot --open",
     "build:prod": "webpack -p && cp ./index.html dist/index.html"
   },
@@ -40,30 +23,23 @@
     "babel-minify": "^0.5.0",
     "babel-plugin-module-resolver": "^3.1.2",
     "babel-plugin-rewire": "^1.2.0",
-    "bootstrap": "^4.1.1",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
-    "fontawesome": "^4.7.2",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
-    "moment": "^2.22.2",
     "node-sass": "^4.8.3",
     "sass-loader": "^7.0.1",
-    "socket.io-client": "^2.1.0",
     "style-loader": "^0.21.0",
-    "terser": "3.14.1",
     "url-loader": "^1.0.1",
-    "webpack": "^4.29.0",
+    "webpack": "^3.5.5",
     "webpack-cli": "^3.2.1",
-    "webpack-dev-server": "^3.1.14"
+    "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
-    "acorn": "^6.1.0",
     "apollo-boost": "^0.1.27",
     "graphql": "^14.1.1",
     "react": "^15.1.0",
     "react-apollo": "^2.4.1",
-    "react-bootstrap": "^0.30.7",
     "react-dom": "^15.1.0"
   }
 }

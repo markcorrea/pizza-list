@@ -3,9 +3,11 @@ import { ApolloProvider } from 'react-apollo'
 import ApolloClient from 'apollo-boost'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
+
 import Header from '../ui/Header.jsx'
 import { PizzaBoard } from './PizzaBoard'
 import Footer from '../ui/Footer.jsx'
+import { defaultCheckboxValues } from './utilities'
 
 const PIZZA_QUERY = gql`
   query PizzaSizeQuery {
@@ -33,15 +35,6 @@ export default class Pizza extends Component {
     super(props)
   }
 
-  defaultCheckboxValues = data => {
-    data.pizzaSizes.map(({ toppings }) => {
-      toppings.map(topping => {
-        topping.checked = topping.defaultSelected
-      })
-    })
-    return data
-  }
-
   render() {
     return (
       <ApolloProvider client={client}>
@@ -51,7 +44,9 @@ export default class Pizza extends Component {
             {({ loading, error, data }) => {
               if (loading) return <h4>Loading...</h4>
               if (error) console.log(error)
-              this.defaultCheckboxValues(data)
+              data.pizzaSizes.map(({ toppings }) => {
+                defaultCheckboxValues(toppings)
+              })
               return <PizzaBoard {...this.props} data={data} />
             }}
           </Query>

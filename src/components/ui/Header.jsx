@@ -10,7 +10,10 @@ export default class Header extends React.Component {
     return (
       <div className='t-header'>
         <div className='logo'>
-          <i className='fa fa-headphones' />
+          <i className='fa fa-pizza-slice' />
+        </div>
+        <div className='header-pizza-on'>
+          <span>Luigi's Pizza</span>
         </div>
         <div className='user-image'>
           <img alt='user' src={userImage} />
