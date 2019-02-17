@@ -20,15 +20,6 @@ REACT
 APOLLO
 - A JavaScript library to make requisitions to the backend using GraphQL, and threat the response on the frontend.
 
-ECMASCRIPT 6 (2015)
-- JavaScript recent updates on language, released in 2015.
-
-BABEL
-- Once EcmaScript6 was so recently released, many browsers still doesn't have support for its new features. So Babel is a translator, which converts all the code to simple EcmaScript5.
-
-CSS/FILE/HTML/SASS/STYLE/URL LOADERS
-- Loaders to be used on webpack. Just like Babel, they convert the files for an understandable language and structure for the browser.
-
 BOOTSTRAP
 - Styling library for a better CSS development.
 
