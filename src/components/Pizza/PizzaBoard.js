@@ -23,27 +23,29 @@ export class PizzaBoard extends React.Component {
   }
 
   countToppings = toppings => {
-    let counter = 0
-    toppings.map(topping => {
-      if (topping.checked) counter++
-    })
-    return counter
+    return toppings.reduce((accumulator, item) => {
+      return item.checked ? accumulator + 1 : accumulator
+    }, 0)
   }
 
   sumSizePrice = (toppings, basePrice) => {
-    let sum = basePrice
-    toppings.map(item => {
-      if (item.checked) sum += item.topping.price
-    })
-    return parseFloat(sum.toFixed(2))
+    return parseFloat(
+      toppings
+        .reduce((accumulator, item) => {
+          return item.checked ? accumulator + item.topping.price : accumulator
+        }, basePrice)
+        .toFixed(2)
+    )
   }
 
   sumCartTotal = cart => {
-    let cartTotal = 0
-    cart.map(
-      pizza => (cartTotal += this.sumSizePrice(pizza.toppings, pizza.basePrice))
+    return parseFloat(
+      cart
+        .reduce((accumulator, item) => {
+          return accumulator + this.sumSizePrice(item.toppings, item.basePrice)
+        }, 0)
+        .toFixed(2)
     )
-    return parseFloat(cartTotal.toFixed(2))
   }
 
   addToCart = size => {
@@ -66,7 +68,7 @@ export class PizzaBoard extends React.Component {
 
   deleteSize = index => {
     const { cart } = this.state
-    
+
     cart.splice(index, 1)
     this.setState({
       cart: cart,
