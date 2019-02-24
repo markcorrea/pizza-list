@@ -5,7 +5,7 @@ import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import Header from '../ui/Header.jsx'
-import { PizzaBoard } from './PizzaBoard'
+import PizzaBoard from './PizzaBoard'
 import Footer from '../ui/Footer.jsx'
 import { defaultCheckboxValues } from './utilities'
 
@@ -47,6 +47,7 @@ export default class Pizza extends Component {
               data.pizzaSizes.map(({ toppings }) => {
                 defaultCheckboxValues(toppings)
               })
+              console.log('data', data)
               return <PizzaBoard {...this.props} data={data} />
             }}
           </Query>

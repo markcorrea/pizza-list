@@ -1,25 +1,18 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import { defaultCheckboxValues } from './utilities'
+import { checkTopping, setSizeFirstState } from '../../actions/sizeAction'
+import { addToCart, removeFromCart } from '../../actions/cartAction'
 
-export class PizzaBoard extends React.Component {
+class PizzaBoard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
   }
 
   componentDidMount() {
-    this.setState({ data: this.props.data, cart: [] })
-  }
-
-  handleCheckboxChange = name => {
-    const keySplit = name.split('.')
-
-    const { data } = this.state
-    data.pizzaSizes[keySplit[0]].toppings[keySplit[1]].checked = !data
-      .pizzaSizes[keySplit[0]].toppings[keySplit[1]].checked
-
-    this.setState({ data: data })
+    this.props.setSizeFirstState(this.props.data)
   }
 
   countToppings = toppings => {
@@ -48,35 +41,36 @@ export class PizzaBoard extends React.Component {
     )
   }
 
-  addToCart = size => {
-    const newSize = {
-      name: size.name,
-      basePrice: size.basePrice,
-      toppings: size.toppings.filter(item => item.checked === true),
-    }
+  // deleteSize = index => {
+  //   const { cart } = this.state
 
-    const sizeIndex = this.state.data.pizzaSizes.findIndex(
-      item => item.name === size.name
+  //   cart.splice(index, 1)
+  //   this.setState({
+  //     cart: cart,
+  //   })
+  // }
+
+  render() {
+    return (
+      <div>
+        {this.props.size.pizzaSizes ? this.renderContainer(this.props) : ''}
+      </div>
     )
-    defaultCheckboxValues(this.state.data.pizzaSizes[sizeIndex].toppings)
-
-    this.setState({
-      data: this.state.data,
-      cart: this.state.cart.concat(newSize),
-    })
   }
 
-  deleteSize = index => {
-    const { cart } = this.state
-
-    cart.splice(index, 1)
-    this.setState({
-      cart: cart,
-    })
+  renderContainer(props) {
+    return (
+      <div className='container mt-20'>
+        <div className='row'>
+          <div className='col-md-8'>{this.renderBoard(props.size)}</div>
+          <div className='col-md-4'>{this.renderCart(props.cart)}</div>
+        </div>
+      </div>
+    )
   }
 
-  renderBoard() {
-    const { pizzaSizes } = this.state.data
+  renderBoard(size) {
+    const { pizzaSizes } = size
     return (
       <div>
         <div className='card-container'>
@@ -103,9 +97,10 @@ export class PizzaBoard extends React.Component {
                             <input
                               type='checkbox'
                               onChange={() =>
-                                this.handleCheckboxChange(
-                                  `${sizeIndex}.${toppingIndex}.checked`
-                                )
+                                this.props.checkTopping({
+                                  name: `${sizeIndex}.${toppingIndex}.checked`,
+                                  checked: checked,
+                                })
                               }
                               checked={checked}
                               disabled={
@@ -135,7 +130,9 @@ export class PizzaBoard extends React.Component {
 
                     <div className='pizza-card-footer mt-10'>
                       <button
-                        onClick={() => this.addToCart(pizzaSizes[sizeIndex])}
+                        onClick={() =>
+                          this.props.addToCart(pizzaSizes[sizeIndex])
+                        }
                         className='btn-add-to-cart'
                       >
                         Add to cart
@@ -151,8 +148,7 @@ export class PizzaBoard extends React.Component {
     )
   }
 
-  renderCart = () => {
-    const { cart } = this.state
+  renderCart = cart => {
     return (
       <div className='form-container'>
         <div className='pizza-cart-title'>Pizza Cart</div>
@@ -166,7 +162,7 @@ export class PizzaBoard extends React.Component {
                 return (
                   <li key={`pizza_${pizzaIndex}`}>
                     <div
-                      onClick={() => this.deleteSize(pizzaIndex)}
+                      onClick={() => this.props.removeFromCart(pizzaIndex)}
                       className='cart-pizza-delete'
                     >
                       <i className='fa fa-minus-circle' />
@@ -201,19 +197,33 @@ export class PizzaBoard extends React.Component {
       </div>
     )
   }
+}
 
-  renderContainer() {
-    return (
-      <div className='container mt-20'>
-        <div className='row'>
-          <div className='col-md-8'>{this.renderBoard()}</div>
-          <div className='col-md-4'>{this.renderCart()}</div>
-        </div>
-      </div>
-    )
-  }
-
-  render() {
-    return <div>{this.state.data ? this.renderContainer() : ''}</div>
+const mapStateToProps = state => {
+  return {
+    size: state.size,
+    cart: state.cart,
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    checkTopping: size => {
+      dispatch(checkTopping(size))
+    },
+    setSizeFirstState: state => {
+      dispatch(setSizeFirstState(state))
+    },
+    addToCart: size => {
+      dispatch(addToCart(size))
+    },
+    removeFromCart: size => {
+      dispatch(removeFromCart(size))
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PizzaBoard)

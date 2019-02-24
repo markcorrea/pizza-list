@@ -2,14 +2,21 @@
 
 import React from 'react'
 import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import '@babel/polyfill'
+
 import '../favicon.ico'
 import './media/styles/main.scss'
-import '@babel/polyfill'
+import store from './store'
 
 import Pizza from './components/Pizza/Pizza'
 render(
-  <div>
+  <Provider store={store}>
     <Pizza />
-  </div>,
+  </Provider>,
   document.getElementById('root')
 )
+
+store.subscribe(() => {
+  console.log('Store updated!', store.getState())
+})

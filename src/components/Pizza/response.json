@@ -1,0 +1,21 @@
+{
+  "pizzaSizes": [
+    {
+      "basePrice": 9.89,
+      "maxToppings": 3,
+      "name": "small",
+      "toppings": [
+        {
+          "checked": false,
+          "defaultSelected": false,
+          "topping": {
+            "name": "pepperoni",
+            "price": 0.4
+          },
+          "name": "pepperoni",
+          "price": 0.4
+        }
+      ]
+    }
+  ]
+}
