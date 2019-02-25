@@ -57,8 +57,8 @@ class PizzaBoard extends React.Component {
         <div className='card-container'>
           <div className='row'>
             {pizzaSizes.map(
-              (size, sizeIndex) => (
-                <SizeContainer key={`size_board_${sizeIndex}`} size={size} sizeIndex={sizeIndex}></SizeContainer>
+              (currentSize, sizeIndex) => (
+                <SizeContainer key={`size_board_${sizeIndex}`} size={currentSize} sizeIndex={sizeIndex}></SizeContainer>
               )
             )}
           </div>

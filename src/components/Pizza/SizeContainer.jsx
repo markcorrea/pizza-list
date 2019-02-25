@@ -5,6 +5,11 @@ import { checkTopping } from '../../actions/sizeAction'
 import { addToCart } from '../../actions/cartAction'
 
 class SizeContainer extends Component {
+
+  constructor(props) {
+    super(props)
+  }
+
   countToppings = toppings => {
     return toppings.reduce((accumulator, item) => {
       return item.checked ? accumulator + 1 : accumulator
@@ -23,6 +28,7 @@ class SizeContainer extends Component {
 
   render() {
     const { name, basePrice, toppings, maxToppings } = this.props.size
+    console.log('dentro do filho', this.props)
     return (
       <div className='col-md-4'>
         <div className='card'>
@@ -90,8 +96,9 @@ class SizeContainer extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log('mapStateToProps', state)
   return {
-    cart: state.cart,
+    cart: state.cart
   }
 }
 
