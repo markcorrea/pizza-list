@@ -47,7 +47,6 @@ export default class Pizza extends Component {
               data.pizzaSizes.map(({ toppings }) => {
                 defaultCheckboxValues(toppings)
               })
-              console.log('data', data)
               return <PizzaBoard {...this.props} data={data} />
             }}
           </Query>

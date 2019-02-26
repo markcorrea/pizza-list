@@ -1,7 +1,7 @@
 import React from 'react'
 import { sumSizePrice, countToppings } from '../utilities'
 
-const SizeContainer = props => {
+const SizeColumn = props => {
   const { name, basePrice, toppings, maxToppings } = props.size
 
   return (
@@ -69,4 +69,4 @@ const SizeContainer = props => {
   )
 }
 
-export default SizeContainer
+export default SizeColumn
