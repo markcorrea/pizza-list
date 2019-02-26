@@ -7,7 +7,7 @@ import gql from 'graphql-tag'
 import Header from '../ui/Header.jsx'
 import PizzaBoard from './PizzaBoard'
 import Footer from '../ui/Footer.jsx'
-import { defaultCheckboxValues } from './utilities'
+import { defaultCheckboxValues } from '../utilities'
 
 const PIZZA_QUERY = gql`
   query PizzaSizeQuery {

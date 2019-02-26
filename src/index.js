@@ -9,7 +9,7 @@ import '../favicon.ico'
 import './media/styles/main.scss'
 import store from './store'
 
-import Pizza from './components/Pizza/Pizza'
+import Pizza from './containers/Pizza'
 render(
   <Provider store={store}>
     <Pizza />

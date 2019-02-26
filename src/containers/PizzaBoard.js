@@ -1,34 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { checkTopping, setSizeFirstState } from '../../actions/sizeAction'
-import { addToCart, removeFromCart } from '../../actions/cartAction'
-import SizeContainer from './SizeContainer'
+import { checkTopping, setSizeFirstState } from '../actions/sizeAction'
+import { addToCart, removeFromCart } from '../actions/cartAction'
+import SizeContainer from '../components/SizeContainer'
+import { sumSizePrice, sumCartTotal } from '../utilities'
 
 class PizzaBoard extends React.Component {
-
   componentDidMount() {
     this.props.setSizeFirstState(this.props.data)
-  }
-
-  sumSizePrice = (toppings, basePrice) => {
-    return parseFloat(
-      toppings
-        .reduce((accumulator, item) => {
-          return item.checked ? accumulator + item.topping.price : accumulator
-        }, basePrice)
-        .toFixed(2)
-    )
-  }
-
-  sumCartTotal = cart => {
-    return parseFloat(
-      cart
-        .reduce((accumulator, item) => {
-          return accumulator + this.sumSizePrice(item.toppings, item.basePrice)
-        }, 0)
-        .toFixed(2)
-    )
   }
 
   render() {
@@ -56,11 +36,15 @@ class PizzaBoard extends React.Component {
       <div>
         <div className='card-container'>
           <div className='row'>
-            {pizzaSizes.map(
-              (currentSize, sizeIndex) => (
-                <SizeContainer key={`size_board_${sizeIndex}`} size={currentSize} sizeIndex={sizeIndex}></SizeContainer>
-              )
-            )}
+            {pizzaSizes.map((currentSize, sizeIndex) => (
+              <SizeContainer
+                key={`size_board_${sizeIndex}`}
+                size={currentSize}
+                sizeIndex={sizeIndex}
+                checkTopping={this.props.checkTopping}
+                addToCart={this.props.addToCart}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -89,7 +73,7 @@ class PizzaBoard extends React.Component {
                     {name}
                     <span className='cart-pizza-price'>
                       {' '}
-                      ${this.sumSizePrice(toppings, basePrice)}
+                      ${sumSizePrice(toppings, basePrice)}
                     </span>
                     <ul className='cart-list-toppings'>
                       {toppings.map(({ topping }, toppingIndex) => {
@@ -107,7 +91,7 @@ class PizzaBoard extends React.Component {
             <div className='cart-list-total'>
               Total
               <span className='cart-list-total-price'>
-                ${this.sumCartTotal(cart)}
+                ${sumCartTotal(cart)}
               </span>
             </div>
           </div>
@@ -138,7 +122,7 @@ const mapDispatchToProps = dispatch => {
     },
     removeFromCart: size => {
       dispatch(removeFromCart(size))
-    }
+    },
   }
 }
 
