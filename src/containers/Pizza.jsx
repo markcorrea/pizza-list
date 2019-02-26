@@ -4,9 +4,9 @@ import ApolloClient from 'apollo-boost'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import Header from '../ui/Header.jsx'
+import Header from '../components/Header.jsx'
 import PizzaBoard from './PizzaBoard'
-import Footer from '../ui/Footer.jsx'
+import Footer from '../components/Footer.jsx'
 import { defaultCheckboxValues } from '../utilities'
 
 const PIZZA_QUERY = gql`
